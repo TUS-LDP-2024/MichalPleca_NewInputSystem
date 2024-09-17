@@ -6,9 +6,10 @@ using UnityEngine;
 public class charController : MonoBehaviour
 {
     public GameInputController playerGameInputController;
+    private Rigidbody rb;
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -16,5 +17,7 @@ public class charController : MonoBehaviour
         if (playerGameInputController.isFiring) {
             Debug.Log("isfiring");
         }
+
+ 
     }
 }
