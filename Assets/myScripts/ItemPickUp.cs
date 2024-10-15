@@ -5,7 +5,6 @@ using UnityEngine;
 public class ItemPickUp : MonoBehaviour
 {
     public Transform hand;
-    public GameObject pickup;
     private GameObject _thePickedUpItem;
     private bool _itemPickedUp = false;
     void Start()
@@ -26,19 +25,19 @@ public class ItemPickUp : MonoBehaviour
         }
     }
 
-    private void pickUpItem(GameObject pickup)
+    private void pickUpItem(GameObject _pickup)
     {
-        _thePickedUpItem = pickup;
+        _pickup = _thePickedUpItem;
         _itemPickedUp = true;
-        pickup.transform.position = hand.transform.position;
-        pickup.transform.parent = hand.transform;
-        pickup.GetComponent<Rigidbody>().isKinematic = true;
+        _pickup.transform.position = hand.transform.position;
+        _pickup.transform.parent = hand.transform;
+        _pickup.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     private void OnDrop()
     {
-        pickup.GetComponent<Rigidbody>().isKinematic = false;
         _itemPickedUp = false;
-        pickup.transform.parent = null;
+        _thePickedUpItem.transform.parent = null;
+        _thePickedUpItem.GetComponent<Rigidbody>().isKinematic = false;
     }
 }
