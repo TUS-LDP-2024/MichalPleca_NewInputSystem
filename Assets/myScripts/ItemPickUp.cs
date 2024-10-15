@@ -6,10 +6,10 @@ public class ItemPickUp : MonoBehaviour
 {
     public Transform hand;
     public GameObject pickup;
-    private bool itemPickedUp = false;
+    private GameObject _thePickedUpItem;
+    private bool _itemPickedUp = false;
     void Start()
     {
-        
     }
 
     void Update()
@@ -19,22 +19,26 @@ public class ItemPickUp : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if(hit.gameObject.tag == "Item" && !itemPickedUp)
+        if(hit.gameObject.tag == "Item" && !_itemPickedUp)
         {
-            pickUpItem();
+            _thePickedUpItem = hit.gameObject;
+            pickUpItem(hit.gameObject);
         }
     }
 
-    private void pickUpItem()
+    private void pickUpItem(GameObject pickup)
     {
-        itemPickedUp = true;
+        _thePickedUpItem = pickup;
+        _itemPickedUp = true;
         pickup.transform.position = hand.transform.position;
         pickup.transform.parent = hand.transform;
+        pickup.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     private void OnDrop()
     {
-        itemPickedUp=false;
+        pickup.GetComponent<Rigidbody>().isKinematic = false;
+        _itemPickedUp = false;
         pickup.transform.parent = null;
     }
 }
