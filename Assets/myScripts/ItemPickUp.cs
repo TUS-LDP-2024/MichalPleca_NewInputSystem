@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
 public class ItemPickUp : MonoBehaviour
 {
     public Transform hand;
+    public float throwForce;
     private GameObject _thePickedUpItem;
     private bool _itemPickedUp = false;
     void Start()
@@ -36,8 +39,22 @@ public class ItemPickUp : MonoBehaviour
 
     private void OnDrop()
     {
-        _itemPickedUp = false;
-        _thePickedUpItem.transform.parent = null;
-        _thePickedUpItem.GetComponent<Rigidbody>().isKinematic = false;
+        if (_itemPickedUp)
+        {
+            _itemPickedUp = false;
+            _thePickedUpItem.transform.parent = null;
+            _thePickedUpItem.GetComponent<Rigidbody>().isKinematic = false;
+        }
+    }
+
+    private void OnThrow()
+    {
+        if (_itemPickedUp)
+        {
+            _itemPickedUp = false;
+            _thePickedUpItem.transform.parent = null;
+            _thePickedUpItem.GetComponent<Rigidbody>().isKinematic = false;
+            _thePickedUpItem.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * throwForce);
+        }
     }
 }
